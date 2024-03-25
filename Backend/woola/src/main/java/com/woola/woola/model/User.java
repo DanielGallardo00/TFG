@@ -1,5 +1,8 @@
 package com.woola.woola.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,7 +19,7 @@ public class User {
     private String rol;
 
     @ManyToMany
-    private List<Event> favoritos = new ArrayList<>();
+    private List<> favoritos = new ArrayList<>(); /// falta añadir el tipo a la lista
 
     private Boolean validated;
     private String checkToken;

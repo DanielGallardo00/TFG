@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.woola.woola.model.User;
-import com.woola.woola.model.repository.UserRepository;
+import com.woola.woola.repository.UserRepository;
 
 @Service
 public class UserService {
