@@ -14,7 +14,7 @@ public class Comment {
     @Column(name ="Id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
-    private Event event;
+    private Route route;
     private String comment_user;
     private String description;
     private String time;
@@ -90,12 +90,12 @@ public class Comment {
         this.time = time;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
-    public Event getEvent(){
-        return this.event;
+    public Route getRoute(){
+        return this.route;
     }
 
     public void clear(){

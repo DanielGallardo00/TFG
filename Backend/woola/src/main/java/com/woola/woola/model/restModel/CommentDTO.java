@@ -4,7 +4,7 @@ import com.woola.woola.model.Comment;
 
 public class CommentDTO {
     public Long id;
-    public EventDTO event;
+    public RouteDTO route;
     public String comment_user;
     public String description;
     public String time;
@@ -12,7 +12,7 @@ public class CommentDTO {
 
     public CommentDTO(Comment comment){
         this.id = comment.getId();
-        this.event = new EventDTO(comment.getEvent());
+        this.route = new RouteDTO(comment.getRoute());
         this.comment_user = comment.getCommentUser();
         this.description = comment.getDescription();
         this.time = comment.getTime();

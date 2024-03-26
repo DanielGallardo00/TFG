@@ -19,7 +19,7 @@ public class User {
     private String rol;
 
     @ManyToMany
-    private List<> favoritos = new ArrayList<>(); /// falta añadir el tipo a la lista
+    private List<Route> favoritos = new ArrayList<>(); /// falta añadir el tipo a la lista
 
     private Boolean validated;
     private String checkToken;
@@ -81,24 +81,24 @@ public class User {
         return this.id;
     }
 
-    public List<Event> getFavoritos(){
+    public List<Route> getFavoritos(){
         return this.favoritos;
     }
 
-    public boolean isInFavorites(Event event){
-        return this.favoritos.contains(event);
+    public boolean isInFavorites(Route route){
+        return this.favoritos.contains(route);
     }
 
-    public void setFavoritos(List<Event> favoritos){
+    public void setFavoritos(List<Route> favoritos){
         this.favoritos = favoritos;
     }
 
-    public void addFavoritos(Event event){
-        this.favoritos.add(event);
+    public void addFavoritos(Route route){
+        this.favoritos.add(route);
     }
 
-    public void removeFavoritos(Event event){
-        this.favoritos.remove(event);
+    public void removeFavoritos(Route route){
+        this.favoritos.remove(route);
     }
 
     public String getUsername(){
