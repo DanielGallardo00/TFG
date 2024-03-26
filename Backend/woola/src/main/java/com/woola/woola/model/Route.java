@@ -7,13 +7,11 @@ import java.util.ArrayList;
 
 import java.sql.Blob;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+@Entity
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +20,10 @@ public class Route {
 
     private String name;
     private String description;
+    private String duration;
 
-    private String userId;
+    private Long userId;
+    private boolean booking;
 
     @JsonIgnore
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -47,11 +47,13 @@ public class Route {
     
     public Route (){}
     
-    public Route(String name, String description, String userId, Blob imgUrl){
+    public Route(String name, String description, Long userId, String duration, Blob imgUrl, boolean booking){
         this.name = name;
         this.description = description;
         this.userId = userId;
+        this.duration = duration;
         this.image = imgUrl;
+        this.booking = booking;
     }
 
     @Override
@@ -81,5 +83,129 @@ public class Route {
 
     public void setId(long id){
         this.id=id;
+    }
+
+    public boolean isUserInLikes(User user){
+        return likeList.contains(user);
+    }
+
+    public int getTotalLikes(){
+        return likeList.size();
+    }
+
+    public boolean addLike(User user){
+        return likeList.add(user);
+    }
+
+    public boolean removeLike(User user){
+        return likeList.remove(user);
+    }
+
+    public boolean isUserInDislikes(User user){
+        return dislikeList.contains(user);
+    }
+
+    public int getTotalDislikes(){
+        return dislikeList.size();
+    }
+
+    public boolean addDislike(User user){
+        return dislikeList.add(user);
+    }
+
+    public boolean removeDislike(User user){
+        return dislikeList.remove(user);
+    }
+
+    public Long getId(){
+        return this.id;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean getBooking() {
+        return booking;
+    }
+    public void setBooking(boolean booking) {
+        this.booking = booking;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public void setImgUrl(Blob image) {
+        this.image = image;
+    }
+
+    public List<Comment> getComments(){
+        return this.comments;
+    }
+
+    public void setComments(List<Comment> comments){
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment){
+        comment.setRoute(this);
+        this.comments.add(comment);
+    }
+
+    public void removeComment(Comment comment){
+        comment.setRoute(null);
+        this.comments.remove(comment);
+    }
+    
+    
+    public void clearComments(){
+        for (Comment comment : comments) {
+            removeComment(comment);
+        }
+    }
+    public void clear() {
+        likeList.clear();
+        dislikeList.clear();
+    }
+    public List<Comment> deleteUserReferences(User user) {
+        if(likeList.contains(user))
+            removeLike(user);
+        if(dislikeList.contains(user))
+            removeDislike(user);
+        List<Comment> output = new ArrayList<>();
+        for(Comment comment:comments){
+            if(comment.isUserInFavorites(user)){
+                comment.removeFavorites(user);
+                output.add(comment);
+            } 
+        }
+        return output;
     }
 }

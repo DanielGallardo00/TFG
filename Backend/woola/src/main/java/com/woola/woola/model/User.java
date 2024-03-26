@@ -19,7 +19,7 @@ public class User {
     private String rol;
 
     @ManyToMany
-    private List<Route> favoritos = new ArrayList<>(); /// falta añadir el tipo a la lista
+    private List<Route> favoritos = new ArrayList<>();
 
     private Boolean validated;
     private String checkToken;
