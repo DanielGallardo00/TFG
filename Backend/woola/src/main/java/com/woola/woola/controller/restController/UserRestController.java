@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,9 +26,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.woola.woola.model.Comment;
+import com.woola.woola.model.Route;
 import com.woola.woola.model.User;
 import com.woola.woola.model.restModel.ChangePassword;
+import com.woola.woola.model.restModel.RouteDTO;
 import com.woola.woola.model.restModel.UserDTO;
+import com.woola.woola.service.CommentService;
+import com.woola.woola.service.RouteService;
 import com.woola.woola.service.UserService;
 
 import io.swagger.v3.oas.annotations.*;
@@ -42,6 +48,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public class UserRestController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RouteService routeService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -141,6 +153,7 @@ public class UserRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /* 
     @Operation(summary = "Register a user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "user created sucessfully", content = {
@@ -173,7 +186,7 @@ public class UserRestController {
         } else
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-
+    */
     @Operation(summary = "Modify my password")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "password modified sucessfully", content = {
@@ -216,23 +229,22 @@ public class UserRestController {
             try {
                 User user = userService.findById(id).orElseThrow();
                 if (user.getId() != userPrincipal.getId()) {
-                    List<Event> events = eventService.findAll();
-                    for (Event event : events) {
-                        List<Comment> eventComments = event.deleteUserReferences(user);
-                        for (Comment comment : eventComments) {
+                    List<Route> routes = routeService.findAll();
+                    for (Route route : routes) {
+                        List<Comment> routeComments = route.deleteUserReferences(user);
+                        for (Comment comment : routeComments) {
                             commentService.save(comment);
                         }
                     }
                     if (user.getRol().equals("ASO")) {
-                        Asociation asociation = asoService.findByOwner(user).orElseThrow();
-                        List<Event> asoEvents = eventService.findAllbyAsociation(asociation);
-                        for (Event asoEvent : asoEvents) {
+                        List<Route> userRoutes = routeService.findAllbyUser(user);
+                        for (Route userRoute : userRoutes) {
                             System.out.print("\n borrando evento \n");
-                            asoEvent = clearEvent(asoEvent);
-                            eventService.deleteById(asoEvent.getId());
+                            userRoute = clearRoute(userRoute);
+                            routeService.deleteById(userRoute.getId());
                         }
                         System.out.print("\n borrando asociacion \n");
-                        asoService.deleteById(asociation.getId());
+                        userService.deleteById(id);
                     } else {
                         System.out.println("borrar caso normal");
                         userService.deleteById(id);
@@ -251,7 +263,7 @@ public class UserRestController {
     @Operation(summary = "Get user favorites by admin")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "favourites from user getted sucessfully", content = {
-                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(type = "array", implementation = EventDTO.class))) }),
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(type = "array", implementation = RouteDTO.class))) }),
             @ApiResponse(responseCode = "400", description = "invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "401", description = "user is not registered", content = @Content),
             @ApiResponse(responseCode = "403", description = "not enough privileges", content = @Content),
@@ -259,16 +271,16 @@ public class UserRestController {
 
     })
     @GetMapping("/admin/{id}/favorites")
-    public ResponseEntity<List<EventDTO>> getUserFavorites(@PathVariable long id, HttpServletRequest request) {
+    public ResponseEntity<List<RouteDTO>> getUserFavorites(@PathVariable long id, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal != null) {
             User userPrincipal = userService.findByUsername(request.getUserPrincipal().getName()).orElseThrow();
             try {
                 User user = userService.findById(id).orElseThrow();
-                List<Event> favs = user.getFavoritos();
-                List<EventDTO> list = new ArrayList<EventDTO>();
-                for (Event fav : favs) {
-                    list.add(new EventDTO(fav));
+                List<Route> favs = user.getFavoritos();
+                List<RouteDTO> list = new ArrayList<RouteDTO>();
+                for (Route fav : favs) {
+                    list.add(new RouteDTO(fav));
                 }
                 return new ResponseEntity<>(list, HttpStatus.OK);
             } catch (NoSuchElementException e) {
@@ -281,37 +293,37 @@ public class UserRestController {
     @Operation(summary = "Get my favorites")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "favourites getted sucessfully", content = {
-                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(type = "array", implementation = EventDTO.class))) }),
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(type = "array", implementation = RouteDTO.class))) }),
             @ApiResponse(responseCode = "401", description = "user is not registered", content = @Content),
             @ApiResponse(responseCode = "403", description = "not enough privileges", content = @Content),
             @ApiResponse(responseCode = "404", description = "user not found", content = @Content)
 
     })
     @GetMapping("/me/favorites")
-    private ResponseEntity<List<EventDTO>> getMyFavorites(HttpServletRequest request) {
+    private ResponseEntity<List<RouteDTO>> getMyFavorites(HttpServletRequest request) {
         if (request.getUserPrincipal() != null) {
             User userPrincipal = userService.findByUsername(request.getUserPrincipal().getName()).orElseThrow();
-            List<Event> favs = userPrincipal.getFavoritos();
-            List<EventDTO> list = new ArrayList<EventDTO>();
-            for (Event fav : favs) {
-                list.add(new EventDTO(fav));
+            List<Route> favs = userPrincipal.getFavoritos();
+            List<RouteDTO> list = new ArrayList<RouteDTO>();
+            for (Route fav : favs) {
+                list.add(new RouteDTO(fav));
             }
             return new ResponseEntity<>(list, HttpStatus.OK);
         } else
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @Operation(summary = "Add event to current user's favorites")
+    @Operation(summary = "Add route to current user's favorites")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "event added sucessfully", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = EventDTO.class)) }),
-            @ApiResponse(responseCode = "400", description = "invalid event id supplied", content = @Content),
+            @ApiResponse(responseCode = "200", description = "route added sucessfully", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = RouteDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "invalid route id supplied", content = @Content),
             @ApiResponse(responseCode = "401", description = "user is not registered", content = @Content),
-            @ApiResponse(responseCode = "404", description = "event not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "route not found", content = @Content)
 
     })
     @PostMapping("/me/favorites/{id}")
-    private ResponseEntity<EventDTO> addFavorites(@PathVariable long id, HttpServletRequest request) {
+    private ResponseEntity<RouteDTO> addFavorites(@PathVariable long id, HttpServletRequest request) {
         if (request.getUserPrincipal() != null) {
 
             Optional<User> userOp = userService.findByUsername(request.getUserPrincipal().getName());
@@ -319,34 +331,34 @@ public class UserRestController {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             User userPrincipal = userOp.get();
-            Optional<Event> eventOp = eventService.findById(id);
-            if (eventOp.isEmpty()) {
+            Optional<Route> routeop = routeService.findById(id);
+            if (routeop.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            Event event = eventOp.get();
-            userPrincipal.addFavoritos(event);
+            Route route = routeop.get();
+            userPrincipal.addFavoritos(route);
             userService.save(userPrincipal);
-            return new ResponseEntity<>(new EventDTO(event), HttpStatus.OK);
+            return new ResponseEntity<>(new RouteDTO(route), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @Operation(summary = "Remove event from current user's favorites")
+    @Operation(summary = "Remove route from current user's favorites")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "event removed sucessfully", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = EventDTO.class)) }),
-            @ApiResponse(responseCode = "400", description = "invalid event id supplied", content = @Content),
+            @ApiResponse(responseCode = "200", description = "route removed sucessfully", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = RouteDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "invalid route id supplied", content = @Content),
             @ApiResponse(responseCode = "401", description = "user is not registered", content = @Content),
-            @ApiResponse(responseCode = "404", description = "event not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "route not found", content = @Content)
 
     })
     @DeleteMapping("/me/favorites/{id}")
-    private ResponseEntity<EventDTO> removeFavorites(@PathVariable long id, HttpServletRequest request) {
+    private ResponseEntity<RouteDTO> removeFavorites(@PathVariable long id, HttpServletRequest request) {
         if (request.getUserPrincipal() != null) {
             User userPrincipal = userService.findByUsername(request.getUserPrincipal().getName()).orElseThrow();
             try {
-                Event event = eventService.findById(id).orElseThrow();
-                userPrincipal.removeFavoritos(event);
+                Route route = routeService.findById(id).orElseThrow();
+                userPrincipal.removeFavoritos(route);
                 userService.save(userPrincipal);
                 return new ResponseEntity<>(HttpStatus.OK);
             } catch (NoSuchElementException e) {
@@ -372,23 +384,23 @@ public class UserRestController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    private Event clearEvent(Event event) {
+    private Route clearRoute(Route route) {
         List<User> users = userService.findAll();
         for (User user : users) {
-            if (user.isInFavorites(event)) {
-                user.removeFavoritos(event);
+            if (user.isInFavorites(route)) {
+                user.removeFavoritos(route);
                 userService.save(user);
             }
 
         }
-        List<Comment> comments = event.getComments();
+        List<Comment> comments = route.getComments();
         for (Comment comment : comments) {
             comment.clear();
             commentService.save(comment);
             commentService.deleteById(comment.getId());
         }
-        event.clear();
-        eventService.save(event);
-        return event;
+        route.clear();
+        routeService.save(route);
+        return route;
     }
 }

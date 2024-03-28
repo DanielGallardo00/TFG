@@ -26,4 +26,8 @@ public class LocationService {
         Optional<Location> findById = locationRepository.findById(id);
         return findById;
     }
+
+    public void deleteById(long id){
+		locationRepository.deleteById(id);
+	}
 }

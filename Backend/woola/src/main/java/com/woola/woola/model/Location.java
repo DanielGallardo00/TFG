@@ -22,6 +22,9 @@ public class Location {
     private String lon;
     private String lat;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Route route;
+
     public Location(){}
 
     public Location(String name, String lat, String lon, Blob imgUrl){
@@ -93,6 +96,12 @@ public class Location {
         this.image = image;
     }
 
+    public void setRoute(Route route) {
+        this.route = route;
+    }
 
+    public Route getRoute(){
+        return this.route;
+    }
 
 }

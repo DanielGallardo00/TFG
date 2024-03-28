@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +21,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.woola.woola.model.Comment;
 import com.woola.woola.service.CommentService;
-import com.woola.woola.model.Event;
+import com.woola.woola.model.Route;
 import com.woola.woola.model.User;
 import com.woola.woola.model.restModel.CommentDTO;
-import com.woola.woola.service.EventService;
+import com.woola.woola.service.RouteService;
 import com.woola.woola.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,7 +44,7 @@ public class CommentRestController {
     private CommentService commentService;
 
     @Autowired
-    private EventService eventService;
+    private RouteService routeService;
 
     @Autowired
     private UserService userService;
@@ -95,9 +93,9 @@ public class CommentRestController {
                 newComent.setCommentUser(principal.getName());
                 commentService.save(newComent);
             
-                Event event = eventService.findById(id).orElseThrow();
-                event.addComment(newComent);
-                eventService.save(event);
+                Route route = routeService.findById(id).orElseThrow();
+                route.addComment(newComent);
+                routeService.save(route);
                 URI location = new URI("https://127.0.0.1:8443/api/comments/"+newComent.getId());
                 return ResponseEntity.created(location).body(new CommentDTO(newComent));
             } catch (NoSuchElementException e) {
@@ -135,21 +133,21 @@ public class CommentRestController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
-    @Operation(summary = "Get list of comments of event")
+    @Operation(summary = "Get list of comments of route")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "list of comments sucessfully getted",content = {
             @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(type = "array", implementation = CommentDTO.class)))}),
-        @ApiResponse(responseCode = "404", description = "event not found", content = @Content)      
+        @ApiResponse(responseCode = "404", description = "route not found", content = @Content)      
     })
     @GetMapping("/api/comments/{id}")
-    public ResponseEntity<List<CommentDTO>> deleteComment(@PathVariable long id){
-        Optional<Event> eventOp=eventService.findById(id);
-        if(eventOp.isEmpty()){
+    public ResponseEntity<List<CommentDTO>> getRouteComments(@PathVariable long id){
+        Optional<Route> routeOp=routeService.findById(id);
+        if(routeOp.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Event event = eventOp.get();
+        Route route = routeOp.get();
         List<CommentDTO> list = new ArrayList<CommentDTO>();
-        for(Comment comment:event.getComments()){
+        for(Comment comment:route.getComments()){
             list.add(new CommentDTO(comment));
         }
         return new ResponseEntity<>(list,HttpStatus.OK);
@@ -160,7 +158,7 @@ public class CommentRestController {
     @Operation(summary = "Give like to comment")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "like done succesfully",content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = Event.class))}),
+            @Content(mediaType = "application/json", schema = @Schema(implementation = Route.class))}),
         @ApiResponse(responseCode = "401", description = "no user register", content = @Content),
         @ApiResponse(responseCode = "404", description = "comment not found", content = @Content)
             

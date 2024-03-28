@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.woola.woola.model.Route;
+import com.woola.woola.model.User;
 import com.woola.woola.repository.RouteRepository;
 
 @Service
@@ -26,5 +27,27 @@ public class RouteService {
         Optional<Route> findById = routeRepository.findById(id);
         return findById;
     }
+
+    public List<Route> findAllbyUser(User user) {
+		return routeRepository.findAllByUser(user.getId());
+	}
+    
+    public void updateById(Route route, long id){
+        int booking=0;
+        if(route.getBooking()){
+            booking=1;
+        }
+        routeRepository.updateRoute(id,route.getName(),route.getBooking(),route.getDescription(),route.getImage());
+    }
+
+	public Optional<Route> findById(long id) {
+		Optional<Route> findById = routeRepository.findById(id);
+		return findById;
+	}
+
+    public void deleteById(long id){
+		routeRepository.deleteById(id);
+	}
+
 
 }

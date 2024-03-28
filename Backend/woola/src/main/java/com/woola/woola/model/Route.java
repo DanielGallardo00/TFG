@@ -22,7 +22,11 @@ public class Route {
     private String description;
     private String duration;
 
-    private Long userId;
+    @JsonIgnore
+    @ManyToOne()
+    private User user;
+
+
     private boolean booking;
 
     @JsonIgnore
@@ -47,10 +51,10 @@ public class Route {
     
     public Route (){}
     
-    public Route(String name, String description, Long userId, String duration, Blob imgUrl, boolean booking){
+    public Route(String name, String description, User user, String duration, Blob imgUrl, boolean booking){
         this.name = name;
         this.description = description;
-        this.userId = userId;
+        this.user = user;
         this.duration = duration;
         this.image = imgUrl;
         this.booking = booking;
@@ -142,12 +146,16 @@ public class Route {
         this.booking = booking;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public String getUserName() {
+        return user.getUsername();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDuration() {
@@ -184,12 +192,39 @@ public class Route {
         this.comments.remove(comment);
     }
     
-    
     public void clearComments(){
         for (Comment comment : comments) {
             removeComment(comment);
         }
     }
+
+
+
+    public List<Location> getLocations(){
+        return this.locations;
+    }
+
+    public void setLocations(List<Location> locations){
+        this.locations = locations;
+    }
+
+    public void addLocation(Location location){
+        location.setRoute(this);
+        this.locations.add(location);
+    }
+
+    public void removeLocation(Location location){
+        location.setRoute(null);
+        this.locations.remove(location);
+    }
+    
+    public void clearLocations(){
+        for (Location location : locations) {
+            removeLocation(location);
+        }
+    }
+
+
     public void clear() {
         likeList.clear();
         dislikeList.clear();

@@ -7,7 +7,7 @@ public class RouteDTO {
     public String name;
     public String description;
     public String duration;
-    public Long userId;
+    public String user;
     public boolean booking;
 
     public RouteDTO(Route route){
@@ -15,7 +15,7 @@ public class RouteDTO {
         this.name = route.getName();
         this.description = route.getDescription();
         this.duration = route.getDuration();
-        this.userId = route.getUserId();
+        this.user = route.getUserName();
         this.booking = route.getBooking();
     }
 }
