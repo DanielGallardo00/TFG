@@ -60,8 +60,4 @@ export class AuthService {
   isBase() {
     return this.user && (this.user.rol == "BASE");
   }
-
-  isAso() {
-    return this.user && (this.user.rol == "ASO");
-  }
 }

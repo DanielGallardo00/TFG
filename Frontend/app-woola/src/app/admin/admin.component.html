@@ -1,0 +1,59 @@
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+  <!-- Navbar Brand-->
+  <a class="navbar-brand ps-3" [routerLink]="['']"><img class="logo" src="assets/img/CoronaRoja.png" alt="image"></a>
+
+  <!-- Sidebar Toggle-->
+  <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" (click)="toogleSidebar()"><fa-icon [icon]="faBars"></fa-icon></button>
+
+  <ul class="navbar-nav ms-auto ms-md-7 me-7 me-lg-7">
+      <li class="nav-item dropdown">
+          <a class="nav-link" (click) = logout()>Cerrar Sesión</a>
+      </li>
+  </ul>
+
+</nav>
+
+<div id="layoutSidenav">
+  <div id="layoutSidenav_nav" *ngIf="showme">
+      <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+          <div class="sb-sidenav-menu">
+              <div class="nav">
+
+                  <div class="sb-sidenav-menu-heading">Administrar</div>
+
+                  <a class="nav-link" [routerLink]="['/admin/users']">
+                      <div class="sb-nav-link-icon"><fa-icon [icon]="faUser"></fa-icon></div>
+                      Usuarios
+                  </a>
+
+                  <a class="nav-link" [routerLink]="['/admin/routes']">
+                      <div class="sb-nav-link-icon"><fa-icon [icon]="faGauge"></fa-icon></div>
+                      Rutas
+                  </a>
+
+              </div>
+          </div>
+          <div class="sb-sidenav-footer">
+
+              <div class="small">Logged in as:</div>
+              {{username}}
+
+          </div>
+
+      </nav>
+  </div>
+  <div id="layoutSidenav_content">
+      <div class="container-fluid px-4">
+          <router-outlet></router-outlet>
+      </div>
+      <footer class="py-4 bg-light mt-auto">
+          <div class="container-fluid px-4">
+              <div class="d-flex align-items-center justify-content-between small">
+                  <div class="text-muted">Copyright &copy; Woola 2024</div>
+
+              </div>
+          </div>
+      </footer>
+  </div>
+
+</div>

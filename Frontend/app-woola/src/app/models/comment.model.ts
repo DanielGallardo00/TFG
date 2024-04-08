@@ -1,7 +1,8 @@
+import { Route } from "./route.model";
 
 export interface Comment {
   id: number;
-  event: Event;
+  route: Route;
   comment_user: string;
   description: string;
   time: string;

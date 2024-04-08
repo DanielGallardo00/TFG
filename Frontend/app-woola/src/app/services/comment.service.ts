@@ -23,12 +23,12 @@ export class CommentService {
 deleteComment(id: number){
     return this.httpClient.delete(BASE_URL + '/' + id, { withCredentials: true });
 }
-commentList(idEvent:number): Observable<Comment[]>{
-  return this.httpClient.get(BASE_URL+'s/'+idEvent).pipe() as Observable<Comment[]>;
+commentList(idRoute:number): Observable<Comment[]>{
+  return this.httpClient.get(BASE_URL+'s/'+idRoute).pipe() as Observable<Comment[]>;
 }
 addComment(comment: Comment){
   const body={description: comment.description}
-  return this.httpClient.post(BASE_URL+'/new/'+comment.event.id,body).pipe();
+  return this.httpClient.post(BASE_URL+'/new/'+comment.route.id,body).pipe();
 }
 giveLike(id: number){
   const body={};

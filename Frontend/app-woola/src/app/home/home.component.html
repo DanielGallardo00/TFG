@@ -1,0 +1,159 @@
+<header id="header" class="fixed-top d-flex align-items-center header-transparent">
+  <div class="container d-flex justify-content-between align-items-center">
+
+    <div class="logo">
+      <h1 class="text-light"><a [routerLink]="['']"><span>Woola</span></a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+    </div>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+
+        <ng-container *ngIf='authService.isLogged()'>
+
+          <ng-container *ngIf='authService.isBase()'>
+            <li><a [routerLink]="['/myUser']">Mi cuenta</a></li>
+          </ng-container>
+
+          <ng-container *ngIf='authService.isAdmin()'>
+            <li><a [routerLink]="['/admin/users']">Panel de Control</a></li>
+          </ng-container>
+
+        </ng-container>
+
+        <ng-container *ngIf='!authService.isLogged()'>
+
+          <li><a [routerLink]="['/register']">Registrarse</a></li>
+          <li><a [routerLink]="['/login']">Iniciar Sesión</a></li>
+
+        </ng-container>
+
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+
+  </div>
+</header><!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex justify-cntent-center align-items-center">
+  <div id="heroCarousel" class="container carousel carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+
+    <div class="carousel-item active">
+      <div class="carousel-container">
+        <h2 class="animate__animated animate__fadeInDown">Bienvenido a  <span>Woola</span></h2>
+        <p class="animate__animated animate__fadeInUp">¡Bienvenido a Woola! La plataforma donde las rutas son creadas por viajeros como tú. Sumérgete en un ambiente relajado y descubre destinos únicos, sugeridos por nuestra comunidad apasionada de exploradores. Desde senderos escondidos hasta joyas locales, en Woola encontrarás la inspiración para tu próxima aventura. Explora, comparte y disfruta de experiencias auténticas creadas por viajeros para viajeros. ¡Empieza a descubrir con Woola hoy mismo!</p>
+        <a  (click)="enter()" class="btn-get-started animate__animated animate__fadeInUp">Comenzar</a>
+      </div>
+    </div>
+  </div>
+</section><!-- End Hero -->
+
+<main id="main">
+
+  <!-- ======= Services Section ======= -->
+  <section class="services">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up">
+          <div class="icon-box icon-box-pink">
+            <div class="icon"><i class="bx bxl-dribbble"></i></div>
+            <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+          <div class="icon-box icon-box-cyan">
+            <div class="icon"><i class="bx bx-file"></i></div>
+            <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
+            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+          <div class="icon-box icon-box-green">
+            <div class="icon"><i class="bx bx-tachometer"></i></div>
+            <h4 class="title"><a href="">Magni Dolores</a></h4>
+            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+          <div class="icon-box icon-box-blue">
+            <div class="icon"><i class="bx bx-world"></i></div>
+            <h4 class="title"><a href="">Nemo Enim</a></h4>
+            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Services Section -->
+
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+
+  <div class="footer-top">
+    <div class="container">
+      <div class="row d-flex justify-content-end">
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Enlaces</h4>
+          <ul>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Inicio</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Sobre nosotros</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Terminos y servicios</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Política de privacidad</a></li>
+          </ul>
+        </div>
+
+
+
+        <div class="col-lg-3 col-md-6 footer-contact">
+          <h4>Contactanos</h4>
+          <p>
+            C/Sol<br>
+            Madrid, Madrid<br>
+            España<br><br>
+            <strong>Phone:</strong> +34 630 31 32 66<br>
+            <strong>Email:</strong> d.gallardo.2020alumnos.urjc.es<br>
+          </p>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-info">
+          <h3>Sobre Woola</h3>
+          <p>Plataforma donde las rutas son creadas por viajeros como tú. Sumérgete en un ambiente relajado y descubre destinos únicos, sugeridos por nuestra comunidad apasionada de exploradores.</p>
+          <div class="social-links mt-3">
+            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Woola</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/ -->
+      Designed by <a href="https://bootstrapmade.com/">Daniel</a>
+    </div>
+  </div>
+</footer><!-- End Footer -->
+

@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-12">
+    <h5>Comentarios</h5>
+    <div class="comments-container">
+
+      <div class="comment" *ngFor="let comment of  commentList">
+        <div class="comment-header">
+          <span class="comment-author">{{comment.comment_user}}</span>
+          <span class="comment-likes">{{comment.totalLikes}}</span>
+        </div>
+        <div class="comment-body">
+          {{comment.description}}
+        </div>
+      </div>
+
+    </div>
+
+    <hr>
+
+    <form #commentForm="ngForm">
+      <div class="form-group">
+        <textarea class="form-control" rows="3" placeholder="Escribe un comentario" [(ngModel)]="description"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="save()">Enviar comentario</button>
+    </form>
+  </div>
+</div>

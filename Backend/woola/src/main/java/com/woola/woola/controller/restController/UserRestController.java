@@ -153,7 +153,7 @@ public class UserRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    /* 
+    
     @Operation(summary = "Register a user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "user created sucessfully", content = {
@@ -165,13 +165,7 @@ public class UserRestController {
     @PostMapping("/")
     public ResponseEntity<UserDTO> register(@RequestBody User user) {
         if (!userService.existUsername(user.getUsername()) && !userService.existEmail(user.getEmail())) {
-            if (user.getRol().equals("ASO")) {
-
-                EmailDetails emailDetails = new EmailDetails();
-                emailDetails.adminMode(user.getUsername(), user.getEmail());
-                emailService.sendSimpleMail(emailDetails);
-
-            } else if (!user.getRol().equals("BASE")) {
+            if (!user.getRol().equals("BASE")) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
             user.setValidated(true);
@@ -186,7 +180,7 @@ public class UserRestController {
         } else
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-    */
+    
     @Operation(summary = "Modify my password")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "password modified sucessfully", content = {
@@ -374,7 +368,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "200", description = "List of users correct", content = @Content)
 
     })
-    @GetMapping("/all")
+    @GetMapping("/all") /// simplemente barra
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> findAll = userService.findAll();
         List<UserDTO> dtos = new ArrayList<>();

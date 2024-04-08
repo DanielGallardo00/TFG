@@ -1,0 +1,89 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4">Usuarios</h1>
+  <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Usuarios</li>
+  </ol>
+
+  <div class="card mb-4">
+      <div class="card-header">
+          <i class="fas fa-table me-1"></i>
+          Tabla usuarios
+      </div>
+      <div class="card-body">
+          <div
+              class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns datatable-empty">
+              <div class="datatable-top">
+                  <div class="datatable-dropdown">
+                      <label>
+                          <select class="datatable-selector">
+                              <option value="5">5</option>
+                              <option value="10" selected="">10</option>
+                              <option value="15">15</option>
+                              <option value="20">20</option>
+                              <option value="25">25</option>
+                          </select>
+                          entries per page
+                      </label>
+                  </div>
+                  <div class="datatable-search">
+                      <input class="datatable-input" placeholder="Search..." type="search" title="Search within table"
+                          aria-controls="datatablesSimple" />
+                  </div>
+              </div>
+              <div class="datatable-container">
+                  <table class="datatable-table">
+                      <thead>
+                          <tr>
+                              <th data-sortable="true" style="width: 7.381615598885793%">
+                                  <a href="#" class="datatable-sorter">Id</a>
+                              </th>
+                              <th data-sortable="true" style="width: 17.270194986072422%">
+                                  <a href="#" class="datatable-sorter">Nombre</a>
+                              </th>
+                              <th data-sortable="true" style="width: 13.92757660167131%">
+                                  <a href="#" class="datatable-sorter">Email</a>
+                              </th>
+                              <th data-sortable="true" style="width: 24.37325905292479%">
+                                  <a href="#" class="datatable-sorter">Rol</a>
+                              </th>
+                              <th data-sortable="true" style="width: 19.637883008356546%">
+                                  <a href="#" class="datatable-sorter">Modificar</a>
+                              </th>
+                              <th data-sortable="true" style="width: 17.40947075208914%">
+                                  <a href="#" class="datatable-sorter">Eliminar</a>
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let user of users">
+                              <td>{{user.id}}</td>
+                              <td>{{user.username}}</td>
+                              <td>{{user.email}}</td>
+                              <td>{{user.rol}}</td>
+
+                              <td>
+                                  <form action="">
+                                      <button (click)="modify(user.id)" id="modify" class="btn btn-sm btn-outline-success"
+                                          type="submit">Modificar</button>
+                                  </form>
+                              </td>
+                              <td>
+                                  <form action="" method="post">
+                                  <button (click)="deleteUser(user.id)" id="modify" class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                                  </form>
+                              </td>
+                          </tr>
+
+                      </tbody>
+                  </table>
+              </div>
+              <div class="datatable-bottom">
+                  <div class="datatable-info"></div>
+                  <nav class="datatable-pagination">
+                      <ul class="datatable-pagination-list"></ul>
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

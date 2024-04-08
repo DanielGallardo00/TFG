@@ -90,8 +90,6 @@ public class RouteRestController {
         }
         User user = userOp.get();
         if (user.getRol().equals("BASE")) {
-            return new ResponseEntity<Route>(HttpStatus.FORBIDDEN);
-        } else if (user.getRol().equals("ASO")) {
             if (!route.getUser().equals(user)) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
@@ -113,7 +111,7 @@ public class RouteRestController {
             @ApiResponse(responseCode = "403", description = "not enouth privileges", content = @Content),
 
     })
-    @PostMapping("/new")
+    @PostMapping("/")// sin el new
     public ResponseEntity<Route> createRoute(MultipartFile newImage, Route route, HttpServletRequest request)
             throws SQLException, IOException, URISyntaxException {
         System.out.println(newImage == null);
@@ -128,8 +126,6 @@ public class RouteRestController {
         }
         User user = userOp.get();
         if (user.getRol().equals("BASE")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if (user.getRol().equals("ASO")) {
             
             route.setUser(userOp.get());
             
@@ -170,9 +166,6 @@ public class RouteRestController {
         }
         User user = userOp.get();
         if (user.getRol().equals("BASE")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if (user.getRol().equals("ASO")) {
-            System.out.println("ASO");
 
             if (!routeDB.getUser().equals(user)) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -217,8 +210,6 @@ public class RouteRestController {
         }
         User user = userOp.get();
         if (user.getRol().equals("BASE")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if (user.getRol().equals("ASO")) {
             if (!route.getUser().equals(user)) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }

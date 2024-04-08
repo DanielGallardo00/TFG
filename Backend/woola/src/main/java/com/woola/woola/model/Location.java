@@ -15,9 +15,8 @@ public class Location {
 
     private String name;
 
-    @JsonIgnore
-    @Lob
-    private Blob image;
+    private String description;
+
 
     private String lon;
     private String lat;
@@ -27,11 +26,11 @@ public class Location {
 
     public Location(){}
 
-    public Location(String name, String lat, String lon, Blob imgUrl){
+    public Location(String name, String description, String lat, String lon){
         this.name = name;
         this.lat = lat;
         this.lon = lon;
-        this.image = imgUrl;
+        this.description = description;
     }
 
     @Override
@@ -88,12 +87,11 @@ public class Location {
         this.name = name;
     }
 
-    public Blob getImage() {
-        return image;
+    public String getDescription() {
+        return description;
     }
-    
-    public void setImgUrl(Blob image) {
-        this.image = image;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setRoute(Route route) {
