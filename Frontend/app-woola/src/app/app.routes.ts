@@ -12,12 +12,14 @@ import { EditRouteComponent } from './admin/routes/edit-route/edit-route.compone
 import { MapComponent } from './map/map.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { CreateMyRoutesComponent } from './user/create-my-routes/create-my-routes.component';
 
 export const routes: Routes = [
   {path: 'myUser', component: UserComponent,
   children:[
     {path:'', component:EditMyUserComponent},
-    {path:'favorites', component:MyUserFavsComponent}
+    {path:'favorites', component:MyUserFavsComponent},
+    {path:'routes',component:CreateMyRoutesComponent}
   ]
 },
   {path: 'admin', component: AdminComponent,
@@ -32,5 +34,6 @@ export const routes: Routes = [
   {path:'login', component: LoginComponent},
   {path:'register', component: RegisterComponent},
   {path:'map', component: MapComponent},
-  {path:'', component: HomeComponent}
+
+  {path:'', component: HomeComponent},
 ];

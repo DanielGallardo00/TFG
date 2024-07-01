@@ -111,7 +111,7 @@ public class RouteRestController {
             @ApiResponse(responseCode = "403", description = "not enouth privileges", content = @Content),
 
     })
-    @PostMapping("/")// sin el new
+    @PostMapping("/")
     public ResponseEntity<Route> createRoute(MultipartFile newImage, Route route, HttpServletRequest request)
             throws SQLException, IOException, URISyntaxException {
         System.out.println(newImage == null);

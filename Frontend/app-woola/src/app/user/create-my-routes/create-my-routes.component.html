@@ -1,0 +1,110 @@
+<h1 class="mt-4">Crear Ruta</h1>
+  <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Nueva Ruta</li>
+  </ol>
+
+  <div *ngIf="!showLocations" class="container-fluid py-5">
+
+    <form [formGroup]="routeForm" (ngSubmit)="createRoute()" class="py-5 px-2 mx-auto col-sm-10 col-md-7 col-lg-5">
+      <h2>Nueva Ruta</h2>
+      <hr/>
+      <div class='d-sm-flex py-sm-2 row'>
+
+        <div class="row separate">
+          <label for="nombre">Nombre de la ruta:</label>
+          <input type="text" id="nombre" formControlName="name" [(ngModel)]="route.name">
+        </div>
+
+        <div class="row separate">
+          <label for="descripcion">Descripción de la ruta:</label>
+          <textarea id="descripcion" formControlName="description" [(ngModel)]="route.description"></textarea>
+
+        </div>
+
+        <div class="row separate">
+          <label for="lat">Latitud:</label>
+          <input type="text" id="lat" formControlName="lat" [(ngModel)]="route.lat">
+        </div>
+
+        <div class="row separate">
+          <label for="lng">Longitud:</label>
+          <input type="text" id="lng" formControlName="lng" [(ngModel)]="route.lng">
+        </div>
+
+        <div class="row separate">
+          <input
+          name="image"
+          class="form-control"
+          type="file"
+          accept="image/*"
+          required=""
+          id="fileInput"
+          (change)="onFileSelected($event)"
+        />
+        </div>
+
+      </div>
+
+      <div class="d-flex py-2 w-100">
+        <div class="flex-fill"></div>
+        <button type="submit">Crear Ruta</button>
+      </div>
+
+
+    </form>
+  </div>
+
+<hr>
+
+<div *ngIf="locations.length > 0">
+  <h2>Localizaciones:</h2>
+  <ul>
+    <li *ngFor="let location of locations">
+      Nombre: {{ location.name }}, Descripción: {{ location.description }}, Latitud: {{ location.lat }}, Longitud: {{ location.lng}},
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="showLocations" class="container-fluid py-5">
+
+  <form [formGroup]="locationForm" (ngSubmit)="addLocation()" class="py-5 px-2 mx-auto col-sm-10 col-md-7 col-lg-5">
+    <h2>Añadir Localización</h2>
+    <hr/>
+
+    <div class='d-sm-flex py-sm-2 row'>
+      <div class="row separate">
+        <label for="name">Nombre del lugar:</label>
+        <input type="text" id="name" formControlName="name" [(ngModel)]="location.name">
+      </div>
+
+      <div class="row separate">
+        <label for="description">Descripción:</label>
+        <input type="text" id="description" formControlName="description" [(ngModel)]="location.description">
+
+      </div>
+
+      <div class="row separate">
+        <label for="lat">Latitud:</label>
+        <input type="text" id="lat" formControlName="lat" [(ngModel)]="location.lat">
+
+      </div>
+
+      <div class="row separate">
+        <label for="lng">Longitud:</label>
+        <input type="text" id="lng" formControlName="lng" [(ngModel)]="location.lng">
+
+      </div>
+
+    </div>
+
+    <div class="d-flex py-2 w-100">
+      <div class="flex-fill"></div>
+      <button type="submit">Añadir Localización</button>
+    </div>
+  </form>
+
+</div>
+
+
+
+

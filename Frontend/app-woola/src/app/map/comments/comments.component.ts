@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Route } from '../../models/route.model';
 import { Comment } from '../../models/comment.model';
 import { CommentService } from '../../services/comment.service';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.css'
 })
-export class CommentsComponent {
+export class CommentsComponent implements OnChanges {
 
   @Input()
   routeC!:Route;
@@ -25,8 +25,8 @@ export class CommentsComponent {
 
   constructor(private commentService: CommentService, private authService:AuthService, private router: Router){}
 
-  ngOnInit(){
-    this.loadComments();
+  ngOnChanges(changes: SimpleChanges): void {
+      this.loadComments();
   }
 
   loadComments(){
@@ -39,6 +39,7 @@ export class CommentsComponent {
     if(this.authService.logged){
       this.comment.route = this.routeC;
       this.comment.description= this.description;
+      console.log(this.description);
       this.commentService.addComment(this.comment).subscribe(
         response =>{
           this.loadComments();

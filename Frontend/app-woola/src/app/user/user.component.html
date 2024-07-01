@@ -1,9 +1,9 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
   <!-- Navbar Brand-->
-  <a class="navbar-brand ps-3" [routerLink]="['']"><img class="logo" src="assets/img/CoronaRoja.png" alt="image"></a>
+  <a class="navbar-brand ps-3" [routerLink]="['']"><img class="logo" src="" alt="Woola"></a>
 
   <!-- Sidebar Toggle-->
-  <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" (click)="toogleSidebar()"><fa-icon [icon]="faBars"></fa-icon></button>
+  <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" (click)="toogleSidebar()"></button>
 
   <ul class="navbar-nav ms-auto ms-md-7 me-7 me-lg-7">
       <li class="nav-item dropdown">
@@ -22,15 +22,21 @@
                   <div class="sb-sidenav-menu-heading">Mi Cuenta</div>
 
                   <a class="nav-link" [routerLink]="['/myUser']">
-                      <div class="sb-nav-link-icon"><fa-icon [icon]="faUser"></fa-icon></div>
+
                       Cuenta
                   </a>
 
                   <div class="sb-sidenav-menu-heading">Favoritos</div>
 
                   <a class="nav-link" [routerLink]="['/myUser/favorites']">
-                      <div class="sb-nav-link-icon"><fa-icon [icon]="faGauge"></fa-icon></div>
+
                       Rutas
+                  </a>
+
+                  <div class="sb-sidenav-menu-heading">Crear Ruta</div>
+
+                  <a class="nav-link" [routerLink]="['/myUser/routes']">
+                      Crear Ruta
                   </a>
 
               </div>

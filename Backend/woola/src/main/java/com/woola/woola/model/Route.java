@@ -11,6 +11,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Route {
     @Id
@@ -22,6 +25,9 @@ public class Route {
     private String description;
     private String duration;
 
+    private Float lat;
+    private Float lng;
+
     @JsonIgnore
     @ManyToOne()
     private User user;
@@ -31,10 +37,12 @@ public class Route {
 
     @JsonIgnore
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Location> locations = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments = new ArrayList<>();
 
     @JsonIgnore
@@ -51,13 +59,15 @@ public class Route {
     
     public Route (){}
     
-    public Route(String name, String description, User user, String duration, Blob imgUrl, boolean booking){
+    public Route(String name, String description, User user, String duration, Blob imgUrl, boolean booking,Float lat, Float lng){
         this.name = name;
         this.description = description;
         this.user = user;
         this.duration = duration;
         this.image = imgUrl;
         this.booking = booking;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     @Override
@@ -222,6 +232,22 @@ public class Route {
         for (Location location : locations) {
             removeLocation(location);
         }
+    }
+
+    public Float getLat() {
+        return lat;
+    }
+
+    public void setLat(Float lat) {
+        this.lat = lat;
+    }
+
+    public Float getLng() {
+        return lng;
+    }
+    
+    public void setLng(Float lng) {
+        this.lng = lng;
     }
 
 

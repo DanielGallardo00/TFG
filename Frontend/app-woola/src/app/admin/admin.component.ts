@@ -37,7 +37,7 @@ export class AdminComponent {
       }
     });
 
-    //this.loadUser();
+    this.loadUser();
   }
 
   loadUser(){

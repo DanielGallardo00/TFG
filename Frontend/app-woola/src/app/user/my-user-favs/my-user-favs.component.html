@@ -11,22 +11,9 @@
             <div class="card-body">
                 <h5 class="card-title">{{route.name}}</h5>
                 <p class="card-text">{{route.description}}</p>
-                <a href="/infoEvento/{{(route.id)}}" class="btn btn-sm btn-outline-primary">Más info</a>
                 <a (click) = "removeFav(route.id)" class="btn btn-sm btn-outline-danger">Eliminar</a>
             </div>
         </div>
     </div>
-
-    <!--<div *ngFor="let item of items" class="col">
-        <div class="card h-100">
-        <img src="/{{id}}/image" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{name}}</h5>
-            <p class="card-text">{{description}}</p>
-            <a href="/infoEvento/{{id}}" class="btn btn-sm btn-outline-primary">Más info</a>
-            <a href="/eliminarFavoritos/{{id}}" class="btn btn-sm btn-outline-danger">Eliminar</a>
-        </div>
-        </div>
-    </div>-->
 
 </div>

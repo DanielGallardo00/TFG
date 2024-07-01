@@ -87,7 +87,6 @@ public class LocationRestController {
 
     @PostMapping("/api/location/new/{id}")//tested
 	public ResponseEntity<LocationDTO> postlocation(@PathVariable long id, @RequestBody Location newLocation, HttpServletRequest request) throws URISyntaxException{
-        System.out.println("crear");
         Principal principal = request.getUserPrincipal();
         if(principal != null){
             try {

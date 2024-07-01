@@ -27,7 +27,7 @@ export class RouteService {
     return this.http.post(BASE_URL+'/dislike/'+id,body).pipe();
   }
   create(formData: FormData) {
-    return this.http.post(BASE_URL + "/new", formData).pipe();
+    return this.http.post(BASE_URL + "/", formData).pipe();
   }
 
   delete(id: Number) {

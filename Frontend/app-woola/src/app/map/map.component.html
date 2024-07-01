@@ -1,11 +1,11 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
   <!-- Navbar Brand-->
-  <a class="navbar-brand ps-3"><img class="logo" src="assets/img/CoronaRoja.png" alt="image"></a>
+  <a class="navbar-brand ps-3" [routerLink]="['']"><img class="logo" src="" alt="Woola"></a>
 
 
   <ul class="navbar-nav ms-auto ms-md-7 me-7 me-lg-7">
       <li class="nav-item dropdown">
-          <a class="nav-link">Mi perfil</a>
+          <a class="nav-link" [routerLink]="['/myUser']">Mi perfil</a>
       </li>
   </ul>
 
@@ -13,58 +13,43 @@
 
 <div class="container-fluid h-100 bg-dark">
   <div class="row h-100">
-    <div class="col-md-4 p-3" id="route-info-container">
-      <div class="card">
-        <div class="card-header">
-          Información de la ruta
-        </div>
-        <div class="card-body" id="route-info-details">
-          <div class="row">
-            <div class="col-md-12">
-              <img src="{{routeInfo.image}}" class="img-fluid" alt="Imagen de la ruta">
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-md-12">
-              <ul class="list-group">
-                <li class="list-group-item">Nombre: {{routeInfo.name}}</li>
-                <li class="list-group-item">Descripción: {{routeInfo.description}}</li>
-              </ul>
-            </div>
-          </div>
-          <hr>
-          <!-- <div class="row">
-            <div class="col-md-12">
-              <h5>Comentarios</h5>
-              <div class="comments-container">
-                <div class="comment" *ngFor="let comment of routeInfo.comments">
-                  <div class="comment-header">
-                    <span class="comment-author">{{comment.author}}</span>
-                    <span class="comment-date">{{comment.date}}</span>
-                  </div>
-                  <div class="comment-body">
-                    {{comment.text}}
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <form #commentForm="ngForm">
-                <div class="form-group">
-                  <textarea class="form-control" rows="3" placeholder="Escribe un comentario" [(ngModel)]="newComment"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" (click)="addComment()">Enviar comentario</button>
-              </form>
-            </div>
-          </div> -->
-          <app-comments [routeC]="routeInfo"></app-comments>
 
+      <div class="col-md-4 p-3" id="route-info-container">
+        <ng-container *ngIf="selected">
+        <div class="card">
+          <div class="card-header">
+            Información de la ruta
+          </div>
+          <div class="card-body" id="route-info-details">
+            <div class="row">
+              <div class="w-50 h-25 col-md-12">
+                <img src="{{imageURL(routeInfo.id)}}" class="img-fluid" alt="Imagen de la ruta">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="list-group">
+                  <li class="list-group-item">Nombre: {{routeInfo.name}}</li>
+                  <li class="list-group-item">Descripción: {{routeInfo.description}}</li>
+                </ul>
+              </div>
+            </div>
+
+            <button id="addFavorites" href="" (click)="addFavorites(routeInfo)">Guardar en Favoritos</button>
+
+            <hr>
+
+            <app-comments [routeC]="routeInfo"></app-comments>
+
+          </div>
         </div>
+      </ng-container>
       </div>
-    </div>
+
     <div class="col-md-8 p-0" id="map-container">
       <google-map height="100%" width="100%" [center]="center" [zoom]="zoom">
-        <map-marker *ngFor="let route of routes" [position]="{lat:route.locations[0].lat, lng:route.locations[0].lng}" [icon]="'/assets/icons/start.png'" (mapClick)="show($event)">
+        <map-marker *ngFor="let route of routeList" [position]="{lat:route.lat, lng:route.lng}" [icon]="'/assets/icons/start.png'" (mapClick)="show($event)">
         </map-marker>
 
         <map-marker *ngFor="let location of locations;let i =index" #marker="mapMarker" [position]="{lat:location.lat,lng:location.lng}" [icon]="'/assets/icons/pin.png'" (mapClick)="openInfoWindow(marker, i)">

@@ -18,18 +18,18 @@ public class Location {
     private String description;
 
 
-    private String lon;
-    private String lat;
+    private Float lng;
+    private Float lat;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Route route;
 
     public Location(){}
 
-    public Location(String name, String description, String lat, String lon){
+    public Location(String name, String description, Float lat, Float lng){
         this.name = name;
         this.lat = lat;
-        this.lon = lon;
+        this.lng = lng;
         this.description = description;
     }
 
@@ -66,18 +66,18 @@ public class Location {
         this.id = id;
     }
 
-    public String getLat() {
+    public Float getLat() {
         return lat;
     }
-    public void setLat(String lat) {
+    public void setLat(Float lat) {
         this.lat = lat;
     }
 
-    public String getLon() {
-        return lon;
+    public Float getLng() {
+        return lng;
     }
-    public void setLon(String lon) {
-        this.lon = lon;
+    public void setLng(Float lng) {
+        this.lng = lng;
     }
 
     public String getName() {

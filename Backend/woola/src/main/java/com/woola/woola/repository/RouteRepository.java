@@ -18,6 +18,6 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query(value="UPDATE route SET name = :name, booking = :booking, description = :description, image = :image WHERE id = :id", nativeQuery = true)
-    void updateRoute(@Param("id") long id, @Param("name") String name, @Param("booking") Boolean booking, @Param("description") String description, @Param("image") Blob image);
+    @Query(value="UPDATE route SET name = :name, booking = :booking, description = :description, image = :image, lat = :lat, lng = :lng WHERE id = :id", nativeQuery = true)
+    void updateRoute(@Param("id") long id, @Param("name") String name, @Param("booking") Boolean booking, @Param("description") String description, @Param("image") Blob image, @Param("lat") Float lat,@Param("lng") Float lng);
 }

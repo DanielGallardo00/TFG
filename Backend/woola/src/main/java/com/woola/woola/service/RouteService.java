@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.woola.woola.model.Route;
 import com.woola.woola.model.User;
+import com.woola.woola.model.Location;
 import com.woola.woola.repository.RouteRepository;
 
 @Service
@@ -37,7 +38,7 @@ public class RouteService {
         if(route.getBooking()){
             booking=1;
         }
-        routeRepository.updateRoute(id,route.getName(),route.getBooking(),route.getDescription(),route.getImage());
+        routeRepository.updateRoute(id,route.getName(),route.getBooking(),route.getDescription(),route.getImage(), route.getLat(),route.getLng());
     }
 
 	public Optional<Route> findById(long id) {
@@ -48,6 +49,5 @@ public class RouteService {
     public void deleteById(long id){
 		routeRepository.deleteById(id);
 	}
-
 
 }

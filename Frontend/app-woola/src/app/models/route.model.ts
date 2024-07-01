@@ -5,4 +5,6 @@ export interface Route {
   duration: string;
   booking: string;
   userName: number;
+  lat: number;
+  lng: number;
 }

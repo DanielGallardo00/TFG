@@ -36,7 +36,16 @@ export class AuthService {
   logIn(username:string, password:string){
     this.http.post(BASE_URL+'/login', { username: username, password: password }, { withCredentials: true }).subscribe(
       (response)=> this.reqIsLogged(),
-      (error) => alert("Credenciales invalidas")
+      (error) => {
+        if (error.status === 401) {
+          // Likely invalid credentials (status code 401 - Unauthorized)
+          alert('Invalid username or password. Please try again.');
+        } else {
+          // Handle other errors
+          console.error('Login error:', error);
+          alert('An error occurred during login. Please try again later.');
+        }
+      }
     );
     this.router.navigate(['/']);
   }
