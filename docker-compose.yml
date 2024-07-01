@@ -2,9 +2,10 @@ version: "3.9"
 services:
   web:
     image: dockerdaniel27/woola
+    restart: on-failure
     ports:
       - "8443:8443"
-    enviroment:
+    environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/woola_db
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=password
@@ -17,5 +18,3 @@ services:
       MYSQL_DATABASE: woola_db
     ports:
       - "3307:3306"
-    expose:
-      - "3308"
