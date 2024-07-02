@@ -14,11 +14,13 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="Id")
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne()
     private Route route;
     private String comment_user;
     private String description;
     private String time;
+    
     @ManyToMany(cascade=CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<User> favorites = new HashSet<>();

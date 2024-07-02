@@ -8,6 +8,8 @@ import javax.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "`user`")
 public class User {
@@ -27,6 +29,10 @@ public class User {
 
     private Boolean validated;
     private String checkToken;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Route> routes = new ArrayList<>();
     
     public User(){}
 
@@ -135,5 +141,29 @@ public class User {
 
     public void setRol(String rol){
         this.rol =  rol;
+    }
+
+    public List<Route> getRoutes(){
+        return this.routes;
+    }
+
+    public void setRoutes(List<Route> routes){
+        this.routes = routes;
+    }
+
+    public void addRoute(Route route){
+        route.setUser(this);
+        this.routes.add(route);
+    }
+
+    public void removeRoute(Route route){
+        route.setUser(null);
+        this.routes.remove(route);
+    }
+    
+    public void clearRoutes(){
+        for (Route route : routes) {
+            removeRoute(route);
+        }
     }
 }

@@ -18,7 +18,7 @@ COPY Backend/woola/pom.xml /project/
 
 COPY Backend/woola/src /project/src
 
-COPY --from=builderNode /project/dist/app-woola/ /project/src/main/resources/static/
+COPY --from=builderNode /project/dist/app-woola/browser/ /project/src/main/resources/static/
 
 RUN mvn package
 

@@ -223,27 +223,14 @@ public class UserRestController {
             try {
                 User user = userService.findById(id).orElseThrow();
                 if (user.getId() != userPrincipal.getId()) {
-                    List<Route> routes = routeService.findAll();
-                    for (Route route : routes) {
-                        List<Comment> routeComments = route.deleteUserReferences(user);
-                        for (Comment comment : routeComments) {
-                            commentService.save(comment);
-                        }
-                    }
-                    if (user.getRol().equals("ASO")) {
-                        List<Route> userRoutes = routeService.findAllbyUser(user);
-                        for (Route userRoute : userRoutes) {
-                            System.out.print("\n borrando evento \n");
-                            userRoute = clearRoute(userRoute);
-                            routeService.deleteById(userRoute.getId());
-                        }
-                        System.out.print("\n borrando asociacion \n");
-                        userService.deleteById(id);
-                    } else {
-                        System.out.println("borrar caso normal");
-                        userService.deleteById(id);
-                    }
 
+                    List<Route> routes = user.getRoutes();
+                    for (Route route : routes) {
+                        Long routeId = route.getId();
+                        routeService.deleteById(routeId);
+                    }
+                    userService.deleteById(id);
+                    
                     return new ResponseEntity<>(HttpStatus.OK);
                 } else
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);

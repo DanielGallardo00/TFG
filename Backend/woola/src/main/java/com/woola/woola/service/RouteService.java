@@ -9,12 +9,20 @@ import org.springframework.stereotype.Service;
 import com.woola.woola.model.Route;
 import com.woola.woola.model.User;
 import com.woola.woola.model.Location;
+import com.woola.woola.repository.CommentRepository;
+import com.woola.woola.repository.LocationRepository;
 import com.woola.woola.repository.RouteRepository;
 
 @Service
 public class RouteService {
     @Autowired
     private RouteRepository routeRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public void save(Route route){
         routeRepository.save(route);
@@ -47,7 +55,13 @@ public class RouteService {
 	}
 
     public void deleteById(long id){
-		routeRepository.deleteById(id);
+        
+         commentRepository.deleteByRouteId(id);
+
+         locationRepository.deleteByRouteId(id);
+
+		 routeRepository.deleteById(id);
+        //routeRepository.deleteRouteAndRelatedEntities(id);
 	}
 
 }

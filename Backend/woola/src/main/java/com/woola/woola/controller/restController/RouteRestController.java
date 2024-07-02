@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.woola.woola.model.Route;
 import com.woola.woola.model.User;
+import com.woola.woola.service.CommentService;
 import com.woola.woola.service.RouteService;
 import com.woola.woola.service.UserService;
 
@@ -73,7 +74,7 @@ public class RouteRestController {
             @ApiResponse(responseCode = "404", description = "route not found", content = @Content)
 
     })
-    @DeleteMapping("/{id}") // revisar borrado localizaciones y vinculación con usuario
+    @DeleteMapping("/{id}")
     public ResponseEntity<Route> deleteRoute(@PathVariable long id, HttpServletRequest request) {
         Optional<Route> routeOp = routeService.findById(id);
         if (routeOp.isEmpty()) {
@@ -130,6 +131,10 @@ public class RouteRestController {
             route.setUser(userOp.get());
             
             routeService.save(route);
+
+            user.addRoute(route);
+            userService.save(user);
+
             URI location = new URI("https://127.0.0.1:8443/api/routes/" + route.getId());
             return ResponseEntity.created(location).body(route);
         } else if (user.getRol().equals("ADMIN")) {

@@ -20,4 +20,11 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
     @Modifying(clearAutomatically = true)
     @Query(value="UPDATE route SET name = :name, booking = :booking, description = :description, image = :image, lat = :lat, lng = :lng WHERE id = :id", nativeQuery = true)
     void updateRoute(@Param("id") long id, @Param("name") String name, @Param("booking") Boolean booking, @Param("description") String description, @Param("image") Blob image, @Param("lat") Float lat,@Param("lng") Float lng);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM location WHERE route.id = :id; " +
+                   "DELETE FROM comment WHERE route.id = :id; " +
+                   "DELETE FROM route WHERE id = :id", nativeQuery = true)
+    void deleteRouteAndRelatedEntities(@Param("id") long id);
 }

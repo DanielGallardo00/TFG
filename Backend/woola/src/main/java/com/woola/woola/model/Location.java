@@ -21,7 +21,7 @@ public class Location {
     private Float lng;
     private Float lat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     private Route route;
 
     public Location(){}
