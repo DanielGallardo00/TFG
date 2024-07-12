@@ -31,10 +31,12 @@ export class UsersComponent {
   }
 
   deleteUser(id: number) {
-    this.userService.deleteUser(id).subscribe(
-      response =>{
-        this.ngOnInit();
-      }
-    )
+    if (confirm('¿Estás seguro de que deseas eliminar esta usuarios?')) {
+      this.userService.deleteUser(id).subscribe(
+        response =>{
+          this.ngOnInit();
+        }
+      )
+    }
   }
 }

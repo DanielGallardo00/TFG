@@ -32,9 +32,14 @@ export class RoutesComponent {
   }
 
   deleteRoute(id: number) {
-    this.routeService.delete(id).subscribe(
-      response =>{
-        this.ngOnInit();
-      });
+    if (confirm('¿Estás seguro de que deseas eliminar esta ruta?')) {
+
+      this.routeService.delete(id).subscribe(
+        response =>{
+          this.ngOnInit();
+        });
+
+    }
+
   }
 }

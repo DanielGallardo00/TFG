@@ -11,30 +11,7 @@
       </div>
       <div class="card-body">
           <div
-            class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns datatable-empty"
-          >
-            <div class="datatable-top">
-              <div class="datatable-dropdown">
-                <label>
-                  <select class="datatable-selector">
-                    <option value="5">5</option>
-                    <option value="10" selected="">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="25">25</option>
-                  </select>
-                  entries per page
-                </label>
-              </div>
-              <div class="datatable-search">
-                <input
-                  class="datatable-input"
-                  placeholder="Search..."
-                  type="search"
-                  title="Search within table"
-                  aria-controls="datatablesSimple"/>
-              </div>
-            </div>
+            class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns datatable-empty">
             <div class="datatable-container">
               <table class="datatable-table">
                 <thead>
@@ -61,12 +38,12 @@
                     <td>{{route.id}}</td>
                     <td>{{route.name}}</td>
                     <td>{{route.duration}}</td>
-                    <td><form action="">
+                    <td>
                       <button (click)="modify(route.id)" id="modify" class="btn btn-sm btn-outline-success" type="submit">Modificar</button>
-                    </form></td>
-                      <td><form action="" method="post">
+                   </td>
+                      <td>
                       <button (click)="deleteRoute(route.id)" id="delete" class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
-                    </form></td>
+                    </td>
                   </tr>
 
                 </tbody>

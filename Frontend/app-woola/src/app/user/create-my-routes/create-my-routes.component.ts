@@ -60,6 +60,7 @@ export class CreateMyRoutesComponent implements OnInit{
     this.routeService.create(formData).subscribe((response: any) =>{
       this.createEventId = response.id;
       this.showLocations = true;
+      this.routeForm.reset();
     })
   }
 
@@ -81,6 +82,15 @@ export class CreateMyRoutesComponent implements OnInit{
 
     })
 
+    }
+  }
+
+  resetForm() {
+    if (confirm('¿Estás seguro de que deseas finalizar la creación de esta ruta?')) {
+      this.routeForm.reset();
+      this.locationForm.reset();
+      this.locations = [];
+      this.showLocations = false;
     }
   }
 }

@@ -10,26 +10,8 @@
           Tabla usuarios
       </div>
       <div class="card-body">
-          <div
-              class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns datatable-empty">
-              <div class="datatable-top">
-                  <div class="datatable-dropdown">
-                      <label>
-                          <select class="datatable-selector">
-                              <option value="5">5</option>
-                              <option value="10" selected="">10</option>
-                              <option value="15">15</option>
-                              <option value="20">20</option>
-                              <option value="25">25</option>
-                          </select>
-                          entries per page
-                      </label>
-                  </div>
-                  <div class="datatable-search">
-                      <input class="datatable-input" placeholder="Search..." type="search" title="Search within table"
-                          aria-controls="datatablesSimple" />
-                  </div>
-              </div>
+          <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns datatable-empty">
+
               <div class="datatable-container">
                   <table class="datatable-table">
                       <thead>
@@ -62,15 +44,10 @@
                               <td>{{user.rol}}</td>
 
                               <td>
-                                  <form action="">
-                                      <button (click)="modify(user.id)" id="modify" class="btn btn-sm btn-outline-success"
-                                          type="submit">Modificar</button>
-                                  </form>
+                                <button (click)="modify(user.id)" id="modify" class="btn btn-sm btn-outline-success" type="submit">Modificar</button>
                               </td>
                               <td>
-                                  <form action="" method="post">
-                                  <button (click)="deleteUser(user.id)" id="modify" class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
-                                  </form>
+                                <button (click)="deleteUser(user.id)" id="modify" class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
                               </td>
                           </tr>
 

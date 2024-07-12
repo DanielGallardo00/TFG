@@ -3,6 +3,7 @@
       <li class="breadcrumb-item active">Nueva Ruta</li>
   </ol>
 
+
   <div *ngIf="!showLocations" class="container-fluid py-5">
 
     <form [formGroup]="routeForm" (ngSubmit)="createRoute()" class="py-5 px-2 mx-auto col-sm-10 col-md-7 col-lg-5">
@@ -32,6 +33,7 @@
         </div>
 
         <div class="row separate">
+          <label for="lng">Imagen:</label>
           <input
           name="image"
           class="form-control"
@@ -47,7 +49,7 @@
 
       <div class="d-flex py-2 w-100">
         <div class="flex-fill"></div>
-        <button type="submit">Crear Ruta</button>
+        <button type="submit" class="btn btn-success">Crear Ruta</button>
       </div>
 
 
@@ -99,7 +101,8 @@
 
     <div class="d-flex py-2 w-100">
       <div class="flex-fill"></div>
-      <button type="submit">Añadir Localización</button>
+      <button type="submit" class="btn btn-success">Añadir Localización</button>
+      <button type="button" class="btn btn-danger ms-2" (click)="resetForm()">Finalizar Ruta</button>
     </div>
   </form>
 

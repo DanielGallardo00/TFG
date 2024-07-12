@@ -226,6 +226,7 @@ public class UserRestController {
 
                     List<Route> routes = user.getRoutes();
                     for (Route route : routes) {
+                        route = clearRoute(route);
                         Long routeId = route.getId();
                         routeService.deleteById(routeId);
                     }
@@ -371,16 +372,17 @@ public class UserRestController {
             if (user.isInFavorites(route)) {
                 user.removeFavoritos(route);
                 userService.save(user);
+                System.out.println("eliminado");
             }
 
         }
-        List<Comment> comments = route.getComments();
-        for (Comment comment : comments) {
-            comment.clear();
-            commentService.save(comment);
-            commentService.deleteById(comment.getId());
-        }
-        route.clear();
+        // List<Comment> comments = route.getComments();
+        // for (Comment comment : comments) {
+        //     comment.clear();
+        //     commentService.save(comment);
+        //     commentService.deleteById(comment.getId());
+        // }
+        //route.clear();
         routeService.save(route);
         return route;
     }

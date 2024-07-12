@@ -27,7 +27,7 @@ public class User {
     @ManyToMany
     private List<Route> favoritos = new ArrayList<>();
 
-    private Boolean validated;
+    private Boolean validated; 
     private String checkToken;
 
     @JsonIgnore

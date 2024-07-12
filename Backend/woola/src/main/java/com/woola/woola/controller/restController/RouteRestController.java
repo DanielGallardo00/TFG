@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.woola.woola.model.Comment;
 import com.woola.woola.model.Route;
 import com.woola.woola.model.User;
 import com.woola.woola.service.CommentService;
@@ -94,9 +95,11 @@ public class RouteRestController {
             if (!route.getUser().equals(user)) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+            route= clearRoute(route);
             routeService.deleteById(route.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         } else if (user.getRol().equals("ADMIN")) {
+            route = clearRoute(route);
             routeService.deleteById(route.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -338,5 +341,26 @@ public class RouteRestController {
         data = image.getBytes(1, (int) image.length());
         resource = new ByteArrayResource(data);
         return resource;
+    }
+
+    private Route clearRoute(Route route) {
+        List<User> users = userService.findAll();
+        for (User user : users) {
+            if (user.isInFavorites(route)) {
+                user.removeFavoritos(route);
+                userService.save(user);
+                System.out.println("eliminado");
+            }
+
+        }
+        // List<Comment> comments = route.getComments();
+        // for (Comment comment : comments) {
+        //     comment.clear();
+        //     commentService.save(comment);
+        //     commentService.deleteById(comment.getId());
+        // }
+        //route.clear();
+        routeService.save(route);
+        return route;
     }
 }

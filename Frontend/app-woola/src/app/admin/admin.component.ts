@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -17,26 +17,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit{
   username?: string;
   u?:User;
-
-  faGauge=faStar;
-  faBars = faBars;
-  faUser = faUser;
 
   showme:boolean = true;
 
   constructor(private userService:UserService, private authService:AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    window.addEventListener('DOMContentLoaded', event => {
-      const datatablesSimple = document.getElementById('datatablesSimple') as HTMLTableElement;
-      if (datatablesSimple) {
-        new simpleDatatables.DataTable(datatablesSimple);
-      }
-    });
-
     this.loadUser();
   }
 

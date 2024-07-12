@@ -3,13 +3,9 @@
     <h5>Comentarios</h5>
     <div class="comments-container">
 
-      <div class="comment" *ngFor="let comment of  commentList">
-        <div class="comment-header">
-          <span class="comment-author">{{comment.comment_user}}</span>
-          <!-- <span class="comment-likes">{{comment.totalLikes}}</span> -->
-        </div>
-        <div class="comment-body">
-          {{comment.description}}
+      <div class="card mb-3" *ngFor="let comment of commentList">
+        <div class="card-body">
+          <p class="card-text">{{ comment.comment_user }}: {{ comment.description }}</p>
         </div>
       </div>
 
